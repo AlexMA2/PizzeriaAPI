@@ -39,7 +39,7 @@ namespace PizzeriaAPI.Services.IngredientService
             return new ResponseData<string> { Success = true, Reason = ResponseCode.InternalServerError };
         }
 
-        public async Task<ResponseData<List<IngredientDto>>> GetAll()
+        public async Task<ResponseData<List<IngredientDto>>?> GetAll()
         {
             var ingredients = await _context.Ingredient
                 .Include(i => i.Pizzas)
@@ -72,7 +72,7 @@ namespace PizzeriaAPI.Services.IngredientService
             return new ResponseData<List<IngredientDto>> { Success = true, Value = ingredientsList };
         }
 
-        public async Task<ResponseData<IngredientDto>> GetById(int id)
+        public async Task<ResponseData<IngredientDto>?> GetById(int id)
         {
             var ingredient = await _context.Ingredient
                 .Where((i) => i.Id == id)

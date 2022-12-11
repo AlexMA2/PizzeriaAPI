@@ -4,7 +4,7 @@ using PizzeriaAPI.Data;
 using PizzeriaAPI.Services.IngredientService;
 using PizzeriaAPI.Services.PizzaService;
 using System.Text.Json.Serialization;
-
+using Microsoft.Extensions.Caching.Memory;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +18,9 @@ builder.Services.AddDbContext<PizzeriaContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection"))
 );
 builder.Services.AddScoped<IPizzaService, PizzaService>();
-builder.Services.AddScoped<IIngredientService, IngredientService>();
+builder.Services.AddScoped<IngredientService>();
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<IIngredientService, IngredientCache>();
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 var app = builder.Build();
 
